@@ -1,0 +1,87 @@
+.cont {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    margin-top: 30px;
+    background-color: #1a1a3d;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    color: #ffffff;
+}
+
+.heading {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #d1e0ff;
+}
+
+.form {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    margin-right: 15px;
+}
+
+.label {
+    margin-bottom: 5px;
+    font-size: 16px;
+}
+
+.input {
+    padding: 8px;
+    border: 2px solid #4a4a8c;
+    border-radius: 5px;
+    background-color: #333366;
+    color: #fff;
+}
+
+.input:focus {
+    outline: none;
+    border-color: #d1e0ff;
+}
+
+.b {
+    padding: 10px 20px;
+    background-color: #4a4a8c;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #d1e0ff;
+    color: #1a1a3d;
+}
+
+.Table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: #333366;
+    color: #ffffff;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.Table th, .table td {
+    padding: 12px;
+    border: 1px solid #4a4a8c;
+    text-align: left;
+}
+
+.Table th {
+    background-color: #4a4a8c;
+    color: #d1e0ff;
+}
+
+.Table tbody tr:hover {
+    background-color: #4a4a8c;
+}

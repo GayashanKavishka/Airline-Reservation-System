@@ -1,0 +1,37 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+.blueShadow {
+  box-shadow: 0.5px 0.5px 0 0 #60a5fa;
+}
+
+.blueShadow:hover {
+  transform: translate(1px, -1px);
+  box-shadow: 1px 1px 0 0 #60a5fa;
+}
+
+.blueShadowBig {
+  box-shadow: 1px 1px 0 0 #60a5fa !important;
+}
+
+.blueShadowBig:hover {
+  transform: translate(-2px, -2px) !important;
+  box-shadow: 3px 2px 0 0 #60a5fa !important;
+}
+
+span {
+  font-family: inherit;
+  font-weight: inherit;
+  color: #60a5fa;
+}
+
+/* .hero {
+} */

@@ -1,0 +1,22 @@
+.seat-booking {
+    padding: 20px;
+}
+
+.seats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.seat {
+    width: 40px;
+    height: 40px;
+    background-color: #ccc;
+    border: 1px solid #999;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.seat.selected {
+    background-color: #4caf50; /* Selected color */
+}

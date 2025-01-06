@@ -1,0 +1,48 @@
+.horizontal-menu {
+    display: flex;
+    justify-content: space-between;
+    background-color: black;
+    padding: 10px;
+  }
+
+  .links
+  {
+    display: flex;
+  }
+  
+  .horizontal-menu a {
+    padding: 10px 20px;
+    text-decoration: none;
+    color: white;
+    display: block;
+    transition: 0.8s;
+  }
+  
+  .horizontal-menu a:hover {
+    /* background-color: grey; */
+    text-decoration: underline;
+    transition: 0.8s;
+  }
+  
+  .submenu {
+    position: relative;
+  }
+  
+  .submenu-items {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 40px;
+    background-color: black;
+    border: 1px solid white;
+  }
+  
+  .submenu-items a {
+    padding: 10px 20px;
+    white-space: nowrap;
+  }
+  
+  .submenu-items a:hover {
+    background-color: grey;
+  }
+  
