@@ -11,6 +11,9 @@ const {
   GetFLightDetailsByAirports,
   TakeFlightbyID,
   searchFlights,
+  GetSeatsRegToClass,
+  GetSeatStatus,
+  UpdateSeatStatus
 } = require("../models/FlightSchedules");
 const connection = require("../database/connection");
 const {validateToken} = require('../middleware/AuthMiddleware');
@@ -308,5 +311,46 @@ router.get("/:FLight_ID", (req, res) => {
       }
     });
 });
+
+router.get("/seats/:Flight_ID", (req, res) => {
+  const { Flight_ID } = req.params;
+
+  GetSeatsRegToClass(Flight_ID)
+    .then((seatCounts) => {
+      res.json(seatCounts);
+    })
+    .catch((error) => {
+      res.status(500).json({ message: error });
+    });
+});
+
+
+router.get("/seat-status/:Flight_ID", (req, res) => {
+  const { Flight_ID } = req.params;
+
+  GetSeatStatus(Flight_ID)
+    .then((seatCounts) => {
+      res.json(seatCounts);
+    })
+    .catch((error) => {
+      res.status(500).json({ message: error });
+    });
+});
+
+router.put("/set-seat-status", (req, res) => {
+  const Flight_ID = req.body.Flight_ID;
+  const Aircraft_ID = req.body.Aircraft_ID;
+  const SelectedSeats = req.body.SelectedSeat;
+  console.log(Flight_ID, Aircraft_ID, SelectedSeats);
+
+  UpdateSeatStatus(Flight_ID, Aircraft_ID, SelectedSeats)
+    .then((results) => {
+      res.json({ message: "Seat status updated successfully", results });
+    })
+    .catch((error) => {
+      res.status(500).json({ message: "Failed to update seat status", error });
+    });
+});
+
 
 module.exports = router;

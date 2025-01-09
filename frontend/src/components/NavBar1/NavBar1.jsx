@@ -3,21 +3,13 @@ import "./Navbar.css";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../helpers/AuthContext";
 import { useState, useEffect } from "react";
-import{jwtDecode} from "jwt-decode"
 import axios from "axios";
 
 const Navbar = () => {
   const navigate = useNavigate();
   const [authState, setAuthState] = useState(false);
-  const [name , setName] = useState("");
 
   useEffect(() => {
-    const accessToken = localStorage.getItem("accessToken");
-    console.log("accessToken", accessToken);
-    // if(accessToken){
-    //   const decoded = jwtDecode(accessToken);
-    //   console.log("decoded", decoded);
-    // }
     axios
       .get("http://localhost:5174/register/", {
         headers: {
@@ -25,9 +17,6 @@ const Navbar = () => {
         },
       })
       .then((response) => {
-        const decoded = jwtDecode(accessToken);
-        console.log("decoded", decoded);
-        setName(decoded.Name);
         if (response.data.error) {
           setAuthState(false);
         } else {
@@ -77,15 +66,12 @@ const Navbar = () => {
               </button>
             </>
           ) : (
-            <div style={{display:"flex", alignItems:"center", gap:"10px"}}>
-            <p> <span style={{color:"yellow"}}>Logged :</span>{name}</p>
             <button
               className="px-3 py-1 rounded-md border-[2px] border-blue-400 border-solid blueShadow gap-4"
               onClick={handleLogOutClick}
             >
               <p>Log out</p>
             </button>
-            </div>
           )}
         </nav>
       </header>

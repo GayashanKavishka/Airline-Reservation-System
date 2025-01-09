@@ -279,6 +279,66 @@ const addSchedule = (
     });
   }
 
+  const GetSeatsRegToClass = (Flight_ID)=>{
+    return new Promise((resolve, reject) => {
+      const getSeatsQuery = `CALL GetSeatCountsRegToClass(?)`;
+      connection.query(getSeatsQuery, [Flight_ID], (err, results) => {
+        if(err){
+          reject("Error getting seats: " + err.stack);
+        } else{
+          console.log("Seats retrieved successfully.");
+          resolve(results[0]);
+        }
+      });
+    });
+  }
+
+
+  const GetSeatStatus = (Flight_ID)=>{
+    return new Promise((resolve, reject) => {
+      const getSeatsQuery = `CALL GetSeatStatus(?)`;
+      connection.query(getSeatsQuery, [Flight_ID], (err, results) => {
+        if(err){
+          reject("Error getting seats: " + err.stack);
+        } else{
+          console.log("Seats retrieved successfully.");
+          resolve(results[0]);
+        }
+      });
+    });
+  }
+
+
+  const UpdateSeatStatus = (Flight_ID, Aircraft_ID, selectedSeat) => {
+    const classes = { "Economy": 1, "Business": 2, "Platinum": 3 };
+  
+    // Create an array of promises
+    const seatUpdatePromises = selectedSeat.map((item) => {
+      const seatType = item.split("-")[0];
+      const seatNumber = item.split("-")[1];
+  
+      return new Promise((resolve, reject) => {
+        const updateSeatsQuery = `CALL UpdateSeatBooked(?, ?, ?, ?)`;
+        connection.query(updateSeatsQuery, [Flight_ID, seatNumber, Aircraft_ID, classes[seatType]], (err, results) => {
+          if (err) {
+            reject("Error updating seats: " + err.stack);
+          } else {
+            console.log("Seats updated successfully.");
+            resolve(results[0]);
+          }
+        });
+      });
+    });
+  
+    // Return a single promise that resolves when all seat updates are complete
+    return Promise.all(seatUpdatePromises);
+  };
+  
+
+    
+
+  
+
  
   
 
@@ -293,5 +353,8 @@ const addSchedule = (
     GetFLightDetailsByAirports,
     TakeFlightbyID,
     fetchAircraftById,
-    searchFlights
+    searchFlights,
+    GetSeatsRegToClass,
+    GetSeatStatus,
+    UpdateSeatStatus
   };

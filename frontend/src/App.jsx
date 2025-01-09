@@ -36,6 +36,9 @@ import FlightRoute from "./Pages/Admin/Route/Route";
 import FinalizeBooking from "./components/FinalizeBooking/FinalizeBooking";
 import TicketView from "./Pages/TicketView";
 import PassengerInfo from "./Pages/PassengerInformation";
+import PassangerDetails from "./Pages/PassangerDetails";
+import SingUp from "./components/SingUp/singup";
+
 
 const App = () => {
   return (
@@ -48,11 +51,13 @@ const App = () => {
               {/* <div style={{ marginTop: '80px' }}> */}
               <div>
                 <Routes>
-                  <Route path="/" element={<Home />} />
+                  <Route path="/" element={<Home />} /> 
                   <Route path="/login" element={<Loginpage />} />
+                  <Route path="/singup" element={<SingUp />} />
                   <Route path="/admin/schedule" element={<SchedulePage />} />
                   <Route path="/schedule" element={<SchedulePage />} />
-                  <Route path="/book" element={<BookingPage />} />
+                  <Route path="/book/:id" element={<BookingPage />} />
+                  <Route path="/passanger-details/:seat" element= {<PassangerDetails/>}/>
                   <Route path="/edit/:id" element={<EditPage />} />
                   <Route path="/add-schedule" element={<AddSchedulePage />} />
                   <Route path="/admin" element={<AdminPage />} />
@@ -92,6 +97,7 @@ const App = () => {
                   <Route path="/finalize-booking" element={<FinalizeBooking />} />
                   <Route path="/ticket-view" element={<TicketView />} />
                   <Route path="/passenger-info" element={<PassengerInfo />} />
+
                 </Routes>
               </div>
             </main>

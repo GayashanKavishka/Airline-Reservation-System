@@ -115,7 +115,66 @@ const insertBooking = (userId, flightId, seatId, seatNumber, price) => {
 //   });
 // };
 
+
+
+
+const InsertPassangers = (passangerData)=>{
+    const{firstName,lastName,country,dob,address,city,email,gender,phone} = passangerData;
+    // console.log(firstName,lastName,country,dob,address,city,email,gender,phone);
+    return new Promise((resolve,reject)=>{
+       const query = `Call InsertPassanger(?,?,?,?,?,?,?,?,?)`;
+       connection.query(query,[firstName,lastName,country,dob,address,city,email,gender,phone] ,(err,results)=>{
+            if(err){
+                reject('Error inserting passanger:',err.stack);
+            }
+            else {
+                console.log('Passanger inserted successfully.');
+                resolve(results);
+            }
+       })
+    })
+
+};
+
+
+const MakeATicket = (Class_ID,Flight_ID,seat_price,seat_num)=>{
+     return new Promise((resolve,reject)=>{
+          const query1 = 'call SelectAllFlightSchedules(?)';
+          const query2 = 'call UpdateTicketWithLastPassenger(?,?,?,?)';
+
+          console.log(Flight_ID);
+
+          connection.query(query1,[Flight_ID],(err,results)=>{
+            if(err){
+               reject('Error Finding Flight :',err.stack);
+            }
+            else{
+              //  console.log('Flight Found');
+              //  console.log(results[0][0]);
+               const Flight_price = results[0][0].Flight_price;
+               const Finnal_price = Flight_price + seat_price;
+               console.log(Finnal_price);
+               connection.query(query2,[Class_ID,Finnal_price,Flight_ID,seat_num,],(err,results)=>{
+                 if(err){
+                   reject('Error Making Ticket :',err.stack);
+                 }
+                 else{
+                    console.log('Ticket Created Successfully');
+                    resolve(results);
+                 }
+               })
+            }
+          })
+
+
+     })
+        
+     };
+
+
 module.exports = {
   reservationQuery,
-  insertBooking
+  insertBooking,
+  InsertPassangers,
+  MakeATicket
 };
