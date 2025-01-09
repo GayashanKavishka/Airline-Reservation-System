@@ -1,0 +1,119 @@
+/* General container styles */
+.ticket-container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f0f8ff; /* Light blue background */
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Title styles */
+  .ticket-container h1 {
+    text-align: center;
+    color: #1a73e8; /* Deep blue */
+    font-size: 48px;
+    font-weight: bold;
+    margin-bottom: 20px;
+
+  }
+  
+  /* Card styles */
+  .ticket-card {
+    background-color: #ffffff; /* White background for cards */
+    border-radius: 10px;
+    margin-bottom: 20px;
+    padding: 20px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Section headers */
+  .passenger-info h2,
+  .flight-info h2 {
+    color: #1a73e8; /* Deep blue for headers */
+    margin-bottom: 15px;
+    font-size: 20px;
+  }
+  
+  /* Text styles */
+  .ticket-card p {
+    font-size: 16px;
+    color: #333; /* Dark gray text */
+    margin: 5px 0;
+  }
+  
+  .ticket-card p strong {
+    color: #1a73e8; /* Highlight labels in blue */
+  }
+  
+  /* Responsive styling */
+  @media (max-width: 600px) {
+    .ticket-container {
+      padding: 15px;
+    }
+  
+    .ticket-card {
+      padding: 15px;
+    }
+  
+    h1 {
+      font-size: 24px;
+    }
+  
+    .passenger-info h2,
+    .flight-info h2 {
+      font-size: 18px;
+    }
+  
+    .ticket-card p {
+      font-size: 14px;
+    }
+  }
+
+
+  .cancel-button
+  {
+    background-color: #f44336; /* Red */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    width: 100px;
+    height: 50px;
+    border-radius: 6px;
+    transition: 1s;
+  }
+
+  .cancel-button:hover {
+    background-color: #d32f2f; /* Darker red on hover */
+    font-weight: bold;
+    color: whitesmoke;
+    transition: 1s;
+  }
+  .pay
+  {
+    background-color: #4caf50; /* Green */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    width: 100px;
+    height: 50px;
+    border-radius: 6px;
+    transition: 1s;
+    width : 760px;
+  }
+
+  .pay:hover {
+    background-color: #275d29; /* Darker green on hover */
+    font-weight: bold;
+    color: white;
+    transition: 1s;
+  }
+
+  
