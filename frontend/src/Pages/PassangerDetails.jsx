@@ -52,29 +52,48 @@ const PassangerDetails = () => {
       };
 
       const InsertPassanger = ()=>{
-        axios.post("http://localhost:5174/reservation/insertPassanger",formData)
+        axios.post("http://localhost:5174/reservation/insertPassanger",
+              {
+                firstName: formData.firstName,
+                lastName: formData.lastName,
+                country: formData.country,
+                dob: formData.dob,
+                address: formData.address,
+                city: formData.city,
+                email: formData.email,
+                gender : formData.gender,
+                phone: formData.phone,
+                class_id : Class_ID,
+                flight_id : flight_ID,
+                price : seat_price,
+                seat_num : seat_num
+
+
+              }
+            )
         .then((response)=>{
             console.log(response.data);
+            alert('Passanger inserted successfully');
             console.log("details",Class_ID,flight_ID,seat_num,seat_price);
 
-            // const seat_num =  parseFloat(selectedSeats[0].split('-')[1]);
-            // const seat_type = selectedSeats[0].split('-')[0];
-            // const Class_ID = seat_types[seat_type];
-            // const seat_price = Prices[seat_type];
+            // // const seat_num =  parseFloat(selectedSeats[0].split('-')[1]);
+            // // const seat_type = selectedSeats[0].split('-')[0];
+            // // const Class_ID = seat_types[seat_type];
+            // // const seat_price = Prices[seat_type];
             
-            alert('Passanger inserted successfully');
-            axios.post(`http://localhost:5174/reservation/make_a_ticket`,{
-               Class_ID : Class_ID, 
-               Flight_ID : flight_ID,
-               seat_price : seat_price,
-               seat_num :seat_num
+            // alert('Passanger inserted successfully');
+            // axios.post(`http://localhost:5174/reservation/make_a_ticket`,{
+            //    Class_ID : Class_ID, 
+            //    Flight_ID : flight_ID,
+            //    seat_price : seat_price,
+            //    seat_num :seat_num
 
-            }).then((response)=>{
-                console.log(response.data);
-                alert('Ticket Created Successfully');
-            }).catch((error)=>{
-                console.log(error);
-            })
+            // }).then((response)=>{
+            //     console.log(response.data);
+            //     alert('Ticket Created Successfully');
+            // }).catch((error)=>{
+            //     console.log(error);
+            // })
         })
         .catch((error)=>{
             console.log(error);
@@ -91,7 +110,10 @@ const PassangerDetails = () => {
         if(selectedSeats.length === 1){
             console.log('Selected Seats:', selectedSeats);
             console.log("navigate to payment page");
-            
+            const duplicateselectedSeats = JSON.parse(localStorage.getItem('selectedSeats'));
+            console.log("duplicateselectedSeats",duplicateselectedSeats);
+            localStorage.removeItem('selectedSeats');
+            navigate('/ticket', { state: { duplicateselectedSeats,flight_ID,prices } });
         }
         else
         {

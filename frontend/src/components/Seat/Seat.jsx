@@ -156,6 +156,7 @@ import React, { useState, useEffect } from 'react';
 import { use } from 'react';
 import { MdOutlineChair } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
+import { jwtDecode } from 'jwt-decode';
 
 const Seat = ({ seatNumber, isSelected, onClick, seatType, isBooked }) => {
   const seatColors = {
@@ -194,11 +195,19 @@ const AircraftSeatLayout = ({ seatConfig, flight_ID }) => {
 
   const navigate = useNavigate();
 
+  const accessToken = localStorage.getItem('accessToken');
+
   const[prices,setPrices] = useState({
     Economy: '',
     Business: '',
     Platinum: ''
   });
+
+  const ClassType = {
+    Economy: 1,
+    Business: 2,
+    Platinum: 3
+  }
 
   useEffect(() => {
     axios
@@ -239,6 +248,7 @@ const AircraftSeatLayout = ({ seatConfig, flight_ID }) => {
 
 
   const handleConfirmation = () => {
+     localStorage.setItem('selectedSeats', JSON.stringify(selectedSeats));
      if (selectedSeats.length === 0) {
       alert('Please select at least one seat');
      }
@@ -256,8 +266,31 @@ const AircraftSeatLayout = ({ seatConfig, flight_ID }) => {
           .then((response) => {
             // console.log('Seat Data:', response.data);
             console.log('Selected Seats:', selectedSeats);
-            navigate(`/passanger-details/${selectedSeats[0]}`, { state: { selectedSeats,flight_ID,prices} });
-
+            if(accessToken) {
+               const seat_num = selectedSeats[0].split("-")[1];
+               const type = selectedSeats[0].split("-")[0];
+               console.log(accessToken);
+               console.log(jwtDecode(accessToken));
+               const Passenger_ID = jwtDecode(accessToken).passengerId;
+               console.log('Passenger ID:', Passenger_ID);
+               axios.post(`http://localhost:5174/reservation/make_a_ticket`,{
+                  Class_ID: ClassType[type],
+                  Flight_ID: flight_ID,
+                  seat_price: prices[type],
+                  seat_num: seat_num,
+                  Passenger_ID: Passenger_ID
+               }).then((response) => {
+                console.log('Ticket Data:', response.data);
+                const duplicateselectedSeats = [...selectedSeats];
+                navigate('/ticket', {state: {duplicateselectedSeats,flight_ID,prices}});
+               })
+                .catch((error) => {
+                  console.error('Error fetching flight schedule:', error);
+                });
+            }
+            else{
+              navigate(`/passanger-details/${selectedSeats[0]}`, { state: { selectedSeats,flight_ID,prices} });
+            }
           })
           .catch((error) => {
             console.error('Error fetching flight schedule:', error);
@@ -274,11 +307,18 @@ const AircraftSeatLayout = ({ seatConfig, flight_ID }) => {
     if (selectedSeats.includes(seatIdentifier)) {
       setSelectedSeats(selectedSeats.filter((seat) => seat !== seatIdentifier));
     } else {
-      if (selectedSeats.length < 10) {
+      if(accessToken && selectedSeats.length < 1) {
         setSelectedSeats([...selectedSeats, seatIdentifier]);
-      } else {
-        alert('You can only select a maximum of 10 seats');
       }
+      else if(accessToken && selectedSeats.length >= 1)
+      {
+        alert('You can only select a maximum of 1 seat');
+      }
+      else if (selectedSeats.length < 10) {
+        setSelectedSeats([...selectedSeats, seatIdentifier]);
+          } else {
+            alert('You can only select a maximum of 10 seats');
+          }
     }
   };
 

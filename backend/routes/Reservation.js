@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { insertReservation, getReservationById, deleteReservation,InsertPassangers,MakeATicket } = require("../models/Reservation");
+const { insertReservation, getReservationById, deleteReservation,InsertPassangers,MakeATicket ,GetTicketDetails} = require("../models/Reservation");
 
 router.post("/", async (req, res) => {
     const { planeId, userId, date, seatNumber } = req.body;
@@ -70,9 +70,9 @@ router.post("/insertPassanger",(req,res)=>{
 
 router.post("/make_a_ticket",(req,res)=>{
 
-    const{Class_ID,Flight_ID,seat_price,seat_num} = req.body;
-    console.log(Class_ID,Flight_ID,seat_price,seat_num);
-    MakeATicket(Class_ID,Flight_ID,seat_price,seat_num)
+    const{Class_ID,Flight_ID,seat_price,seat_num,Passenger_ID} = req.body;
+    console.log(Class_ID,Flight_ID,seat_price,seat_num,Passenger_ID);
+    MakeATicket(Class_ID,Flight_ID,seat_price,seat_num,Passenger_ID)
     .then((result)=>{
         res.status(200).json({message:"Ticket Created Successfully"});
     }).catch((err)=>{
@@ -82,5 +82,18 @@ router.post("/make_a_ticket",(req,res)=>{
     
 
 });
+
+router.post("/getTicketDetails",(req,res)=>{
+    const{Class_ID,Flight_ID,seat_num} = req.body;
+    console.log(Class_ID,Flight_ID,seat_num);
+    GetTicketDetails(Flight_ID,seat_num,Class_ID)
+    .then((result)=>{
+        res.status(200).json(result[0][0]);
+    })
+    .catch((err)=>{
+        console.error('Error fetching ticket details:', err);
+        res.status(500).json({ error: "Failed to fetch ticket details." });
+    })
+})
 
 module.exports = router;

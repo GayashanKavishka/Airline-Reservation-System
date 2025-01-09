@@ -38,6 +38,8 @@ import TicketView from "./Pages/TicketView";
 import PassengerInfo from "./Pages/PassengerInformation";
 import PassangerDetails from "./Pages/PassangerDetails";
 import SingUp from "./components/SingUp/singup";
+import Ticket from "./Pages/Ticket/Ticket";
+
 
 
 const App = () => {
@@ -54,6 +56,7 @@ const App = () => {
                   <Route path="/" element={<Home />} /> 
                   <Route path="/login" element={<Loginpage />} />
                   <Route path="/singup" element={<SingUp />} />
+                  <Route path = "/ticket" element = {<Ticket/>}/>
                   <Route path="/admin/schedule" element={<SchedulePage />} />
                   <Route path="/schedule" element={<SchedulePage />} />
                   <Route path="/book/:id" element={<BookingPage />} />

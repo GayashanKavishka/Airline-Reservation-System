@@ -119,11 +119,11 @@ const insertBooking = (userId, flightId, seatId, seatNumber, price) => {
 
 
 const InsertPassangers = (passangerData)=>{
-    const{firstName,lastName,country,dob,address,city,email,gender,phone} = passangerData;
-    // console.log(firstName,lastName,country,dob,address,city,email,gender,phone);
+    const{firstName,lastName,country,dob,address,city,email,gender,phone,class_id,flight_id,price,seat_num} = passangerData;
+    console.log(firstName,lastName,country,dob,address,city,email,gender,phone,class_id,flight_id,price,seat_num);
     return new Promise((resolve,reject)=>{
-       const query = `Call InsertPassanger(?,?,?,?,?,?,?,?,?)`;
-       connection.query(query,[firstName,lastName,country,dob,address,city,email,gender,phone] ,(err,results)=>{
+       const query = `Call InsertPassengerAndTicket(?,?,?,?,?,?,?,?,?,?,?,?,?)`;
+       connection.query(query,[firstName,lastName,country,dob,address,city,email,gender,phone,class_id,flight_id,price,seat_num] ,(err,results)=>{
             if(err){
                 reject('Error inserting passanger:',err.stack);
             }
@@ -137,10 +137,10 @@ const InsertPassangers = (passangerData)=>{
 };
 
 
-const MakeATicket = (Class_ID,Flight_ID,seat_price,seat_num)=>{
+const MakeATicket = (Class_ID,Flight_ID,seat_price,seat_num,Passenger_ID)=>{
      return new Promise((resolve,reject)=>{
           const query1 = 'call SelectAllFlightSchedules(?)';
-          const query2 = 'call UpdateTicketWithLastPassenger(?,?,?,?)';
+          const query2 = 'call CreateATicket(?,?,?,?,?)';
 
           console.log(Flight_ID);
 
@@ -152,9 +152,10 @@ const MakeATicket = (Class_ID,Flight_ID,seat_price,seat_num)=>{
               //  console.log('Flight Found');
               //  console.log(results[0][0]);
                const Flight_price = results[0][0].Flight_price;
+               console.log("Flight_Price:",Flight_price);
                const Finnal_price = Flight_price + seat_price;
-               console.log(Finnal_price);
-               connection.query(query2,[Class_ID,Finnal_price,Flight_ID,seat_num,],(err,results)=>{
+               console.log("Final_Price:",Finnal_price);
+               connection.query(query2,[Flight_ID,Class_ID,Passenger_ID,seat_num,Finnal_price],(err,results)=>{
                  if(err){
                    reject('Error Making Ticket :',err.stack);
                  }
@@ -172,9 +173,32 @@ const MakeATicket = (Class_ID,Flight_ID,seat_price,seat_num)=>{
      };
 
 
+     const GetTicketDetails = (Flight_ID,Seat_num,Class_ID)=>{
+      return new Promise((resolve,reject)=>{
+        const query = 'call GetTicketDetails(?,?,?)';
+        connection.query(query,[Flight_ID,Seat_num,Class_ID],(err,results)=>{
+          if(err){
+            reject('Error Fetching Ticket Details :',err.stack);
+          }
+          else{
+            console.log('Ticket Details Fetched Successfully');
+            resolve(results);
+          }
+
+     });
+    });
+  };
+
+  const CreateTicket = (data)=>{
+    const{Passenger_ID,Flight_ID,Seat_num,Class_ID} = data;
+
+  }
+
+
 module.exports = {
   reservationQuery,
   insertBooking,
   InsertPassangers,
-  MakeATicket
+  MakeATicket,
+  GetTicketDetails
 };
