@@ -25,13 +25,13 @@ const Schedule = ({ isAdmin }) => {
 
     const handleBook = async (flight) => {
         try {
-            const response = await axios.get(`http://localhost:5174/schedule/${flight.Flight_ID}`);
-            const { EconomyClassSeatCount, BusinessClassSeatCount, PlatinumClassSeatCount } = response.data;
-            const seatCounts = { EconomyClassSeatCount, BusinessClassSeatCount, PlatinumClassSeatCount };
-            console.log(response); // This should return the seat counts
+            // const response = await axios.get(`http://localhost:5174/schedule/${flight.Flight_ID}`);
+            // const { EconomyClassSeatCount, BusinessClassSeatCount, PlatinumClassSeatCount } = response.data;
+            // const seatCounts = { EconomyClassSeatCount, BusinessClassSeatCount, PlatinumClassSeatCount };
+            // console.log(response); // This should return the seat counts
             
             // Navigate to the booking page and pass the seat configuration
-            navigate(`/book/${flight.Flight_ID}`, { state: { seatCounts } });
+            navigate(`/book/${flight}`);
         } catch (error) {
             console.error('Error fetching seat counts:', error);
         }
@@ -55,15 +55,12 @@ const Schedule = ({ isAdmin }) => {
                                     <thead>
                                         <tr>
                                             <th>Flight ID</th>
-                                            <th>Route ID</th>
+                                            <th>Arival Airport</th>
+                                            <th>Departure Airport</th>
                                             <th>Aircraft ID</th>
                                             <th>Departure Time</th>
                                             <th>Expected Arrival Time</th>
                                             <th>Price</th>
-                                            <th>Created By</th>
-                                            <th>Created Time</th>
-                                            <th>Modified By</th>
-                                            <th>Modified Time</th>
                                             <th>Book</th>
                                         </tr>
                                     </thead>
@@ -71,19 +68,16 @@ const Schedule = ({ isAdmin }) => {
                                         {schedule.map((item, index) => (
                                             <tr key={index} className='data'>
                                                 <td>{item.Flight_ID}</td>
-                                                <td>{item.Route_ID}</td>
+                                                <td>{item.Arrival_Airport}</td>
+                                                <td>{item.Departure_Airport}</td>
                                                 <td>{item.Aircraft}</td>
                                                 <td>{new Date(item.Departure_date_time).toLocaleString()}</td>
                                                 <td>{new Date(item.Expected_arrival_date_time).toLocaleString()}</td>
                                                 <td>{item.Flight_price}</td>
-                                                <td>{item.Created_BY}</td>
-                                                <td>{new Date(item.Created_time).toLocaleString()}</td>
-                                                <td>{item.Modified_BY ? new Date(item.Modified_BY).toLocaleString() : 'N/A'}</td>
-                                                <td>{item.Modified_time ? new Date(item.Modified_time).toLocaleString() : 'N/A'}</td>
                                                 <td>
                                                     <button 
                                                         className="btn btn-success" 
-                                                        onClick={() => handleBook(item)}
+                                                        onClick={() => handleBook(item.Flight_ID)}
                                                     >
                                                         Book
                                                     </button>

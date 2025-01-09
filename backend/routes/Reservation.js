@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { insertReservation, getReservationById, deleteReservation } = require('../models/Reservations');
+const { insertReservation, getReservationById, deleteReservation,InsertPassangers,MakeATicket } = require("../models/Reservation");
 
 router.post("/", async (req, res) => {
     const { planeId, userId, date, seatNumber } = req.body;
@@ -50,6 +50,37 @@ router.delete("/:id", async (req, res) => {
         console.error('Error deleting reservation:', error);
         res.status(500).json({ error: "Failed to delete reservation." });
     }
+});
+
+
+
+router.post("/insertPassanger",(req,res)=>{
+    const passangerData = req.body;
+    console.log(passangerData);
+    InsertPassangers(passangerData)
+    .then((result)=>{
+        res.status(200).json({message:"Passanger inserted successfully"});
+    })
+    .catch((err)=>{
+        console.error('Error inserting passanger:', err);
+        res.status(500).json({ error: "Failed to insert passanger." });
+    })
+
+})
+
+router.post("/make_a_ticket",(req,res)=>{
+
+    const{Class_ID,Flight_ID,seat_price,seat_num} = req.body;
+    console.log(Class_ID,Flight_ID,seat_price,seat_num);
+    MakeATicket(Class_ID,Flight_ID,seat_price,seat_num)
+    .then((result)=>{
+        res.status(200).json({message:"Ticket Created Successfully"});
+    }).catch((err)=>{
+        console.error('Error creating ticket:', err);
+        res.status(500).json({ error: "Failed to create ticket." });
+    })
+    
+
 });
 
 module.exports = router;

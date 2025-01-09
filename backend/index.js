@@ -44,6 +44,9 @@ app.use("/airport", airportRouter);
 const rewardsRouter = require("./routes/Rewards");
 app.use("/rewards", rewardsRouter);
 
+const reservationRouter = require("./routes/Reservation");
+app.use("/reservation", reservationRouter);
+
 
 
 // app.use(express.json()); // to handle JSON body in requests

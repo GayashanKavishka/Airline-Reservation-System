@@ -6,9 +6,9 @@ const FlightResults = () => {
   const { flights } = location.state || {};
   const navigate = useNavigate();
 
-  const handleProceed = (Flight_ID) => {
+  const handleProceed = (Flight_ID,Aircraft_ID) => {
     console.log("Navigating to /book/"+Flight_ID);
-    navigate(`/book/${Flight_ID}`);
+    navigate(`/book/${Flight_ID}` , {state : {Aircraft_ID}});
   };
 
   return (

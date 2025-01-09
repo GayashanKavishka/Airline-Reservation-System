@@ -1,5 +1,6 @@
 const connection = require('../database/connection');
 const { usersQuery } = require('./Users');
+const bycrypt = require('bcrypt');
 
 // Function to initialize the Airport table
 const registeredQuery = () => {
@@ -67,4 +68,43 @@ const insertRegistered = (username, password, Passenger_ID) => {
     });
   };
 
-module.exports = { registeredQuery, insertRegistered, getRegisteredByUsername };
+  const InsertPassengerAndRegistered =(FirstName,LastName,Country,DOB,Address,City,Email,Gender,Phone,UserName,Password)=>{
+           
+           return new Promise((resolve,reject)=>{
+            const hasedPassword = bycrypt.hashSync(Password,8);
+            console.log("hasged",hasedPassword);
+                const query = `Call InsertPassengerAndRegister(? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ?)`;
+
+                connection.query(query,[FirstName,LastName,Country,DOB,Address,City,Email,Gender,Phone,UserName,hasedPassword]
+                  ,(err,results)=>{
+                      if(err){
+                          reject(err);
+                      }else{
+                          resolve(results);
+                           }
+                      }
+                )
+
+           })
+  }
+
+
+  const UserValidate =(UserName)=>{
+    return new Promise((resolve,reject)=>{ 
+      const query = `Call Authentication(?)`;
+      connection.query(query,[UserName],(err,results)=>{
+        if(err){
+          reject(err);
+        }else{
+          console.log("results",results);
+          resolve(results);
+        }
+      })
+    })
+
+  }
+
+
+
+
+module.exports = { registeredQuery, insertRegistered, getRegisteredByUsername,InsertPassengerAndRegistered,UserValidate };
