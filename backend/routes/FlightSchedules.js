@@ -13,7 +13,8 @@ const {
   searchFlights,
   GetSeatsRegToClass,
   GetSeatStatus,
-  UpdateSeatStatus
+  UpdateSeatStatus,
+  ToggleSeatStatus
 } = require("../models/FlightSchedules");
 const connection = require("../database/connection");
 const {validateToken} = require('../middleware/AuthMiddleware');
@@ -346,6 +347,18 @@ router.put("/set-seat-status", (req, res) => {
   UpdateSeatStatus(Flight_ID, Aircraft_ID, SelectedSeats)
     .then((results) => {
       res.json({ message: "Seat status updated successfully", results });
+    })
+    .catch((error) => {
+      res.status(500).json({ message: "Failed to update seat status", error });
+    });
+});
+
+router.put("/toggle-seat-status", (req, res) => {
+  const { Flight_ID, Class_ID, seat_num } = req.body;
+  console.log(Flight_ID, Class_ID, seat_num);
+  ToggleSeatStatus(Flight_ID, Class_ID, seat_num)
+    .then((results) => {
+      res.status(200).json({ message: "Seat status updated successfully", results });
     })
     .catch((error) => {
       res.status(500).json({ message: "Failed to update seat status", error });

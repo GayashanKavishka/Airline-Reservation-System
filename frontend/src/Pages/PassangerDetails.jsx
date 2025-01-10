@@ -75,7 +75,14 @@ const PassangerDetails = () => {
             console.log(response.data);
             alert('Passanger inserted successfully');
             console.log("details",Class_ID,flight_ID,seat_num,seat_price);
-
+            // const selected = JSON.parse(localStorage.getItem('selected'));
+            // const ss = JSON.parse(localStorage.getItem('selectedSeats'));
+            // console.log("selected 1",selected);
+            // console.log("ss",ss);
+            // const selectedSeats = selected.shift();
+            // ss.push(selectedSeats);
+            // localStorage.setItem('selectedSeats', JSON.stringify(ss));
+            // localStorage.setItem('selected', JSON.stringify(selected));
             // // const seat_num =  parseFloat(selectedSeats[0].split('-')[1]);
             // // const seat_type = selectedSeats[0].split('-')[0];
             // // const Class_ID = seat_types[seat_type];
@@ -206,6 +213,7 @@ const PassangerDetails = () => {
                   <h2 className="text-white text-6xl font-bold">4</h2>
                 </div>
           </div>
+          <h1 style={{fontSize:"20px",fontWeight:"500",color:"red"}}> You Can't Change This Seat After Filling Details !</h1>
         <div className="bg-neutral-50 dark:bg-neutral-900 p-8 rounded-lg shadow-md max-w-3xl mx-auto space-y-6">
           <h2 className="text-2xl font-semibold text-neutral-800 dark:text-neutral-100 text-center">
             Passenger Details for {seat}

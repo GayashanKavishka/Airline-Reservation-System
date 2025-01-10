@@ -333,6 +333,23 @@ const addSchedule = (
     // Return a single promise that resolves when all seat updates are complete
     return Promise.all(seatUpdatePromises);
   };
+
+
+  const ToggleSeatStatus = (flight_ID,class_ID,seat_num)=>
+  {
+      return new Promise((resolve,reject )=>{
+          const query = `call ToggleSeatStatus(?,?,?)`;
+          connection.query(query,[flight_ID,class_ID,seat_num],(err,results)=>{
+                 if(err){
+                     reject("Error updating seats: " + err.stack);
+                 }
+                 else {
+                     console.log("Seats updated successfully.");
+                     resolve(results[0]);
+                 }
+          });
+      })
+  }
   
 
     
@@ -356,5 +373,6 @@ const addSchedule = (
     searchFlights,
     GetSeatsRegToClass,
     GetSeatStatus,
-    UpdateSeatStatus
+    UpdateSeatStatus,
+    ToggleSeatStatus
   };
