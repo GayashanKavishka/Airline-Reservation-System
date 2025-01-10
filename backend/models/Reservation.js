@@ -189,10 +189,41 @@ const MakeATicket = (Class_ID,Flight_ID,seat_price,seat_num,Passenger_ID)=>{
     });
   };
 
-  const CreateTicket = (data)=>{
-    const{Passenger_ID,Flight_ID,Seat_num,Class_ID} = data;
+  const MakeTiketPaid = (Ticket_ID)=>{
+    return new Promise((resolve,reject)=>{
+      query = 'call MakePaidTicket(?)';
+      connection.query( query,[Ticket_ID],(err,results)=>{
+         if(err)
+         {
+             reject('Error Making Ticket Paid:',err.stack);
+         }
+         else{
+            console.log('Ticket Paid Successfully');
+             resolve(results);
+         }
+      })
+    })
+    
 
   }
+
+
+  const UndoBooking = (Ticket_ID)=>{
+    return new Promise((resolve,reject)=>{
+      query = 'call UndoBokking(?)';
+      connection.query( query,[Ticket_ID],(err,results)=>{
+         if(err)
+         {
+             reject('Error Undoing Booking:',err.stack);
+         }
+         else{
+            console.log('Booking Undone Successfully');
+             resolve(results);
+         }
+    })
+  })
+};
+
 
 
 module.exports = {
@@ -200,5 +231,7 @@ module.exports = {
   insertBooking,
   InsertPassangers,
   MakeATicket,
-  GetTicketDetails
+  GetTicketDetails,
+  MakeTiketPaid,
+  UndoBooking
 };

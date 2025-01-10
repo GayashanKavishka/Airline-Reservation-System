@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { insertReservation, getReservationById, deleteReservation,InsertPassangers,MakeATicket ,GetTicketDetails} = require("../models/Reservation");
+const { insertReservation, getReservationById, deleteReservation,InsertPassangers,MakeATicket ,GetTicketDetails,MakeTiketPaid,UndoBooking} = require("../models/Reservation");
 
 router.post("/", async (req, res) => {
     const { planeId, userId, date, seatNumber } = req.body;
@@ -93,6 +93,31 @@ router.post("/getTicketDetails",(req,res)=>{
     .catch((err)=>{
         console.error('Error fetching ticket details:', err);
         res.status(500).json({ error: "Failed to fetch ticket details." });
+    })
+})
+
+router.put("/makeTicketPaid",(req,res)=>{
+     const {Ticket_ID} = req.query;
+     MakeTiketPaid(Ticket_ID)
+     .then((result)=>{
+            res.status(200).json({message:"Ticket Paid Successfully"});
+     })
+     .catch((err)=>{
+        console.error('Error making ticket paid:', err);
+        res.status(500).json({ error: "Failed to make ticket paid." });
+     })
+});
+
+
+router.delete("/undoBooking/undoTicket",(req,res)=>{
+    const {Ticket_ID} = req.query;
+    UndoBooking(Ticket_ID)
+    .then((result)=>{
+        res.status(200).json({message:"Booking Undo Successfully"});
+    })
+    .catch((err)=>{
+        console.error('Error undoing booking:', err);
+        res.status(500).json({ error: "Failed to undo booking." });
     })
 })
 

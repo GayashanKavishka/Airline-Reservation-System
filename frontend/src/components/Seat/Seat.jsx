@@ -158,7 +158,9 @@ import { MdOutlineChair } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 
-const Seat = ({ seatNumber, isSelected, onClick, seatType, isBooked }) => {
+
+
+const Seat = ({ seatNumber, isSelected, onClick, seatType, isBooked}) => {
   const seatColors = {
     Economy: 'text-green-600',
     Business: 'text-blue-600',
@@ -169,13 +171,30 @@ const Seat = ({ seatNumber, isSelected, onClick, seatType, isBooked }) => {
     <div className="flex flex-col items-center">
       <MdOutlineChair
         className={`text-4xl cursor-pointer transition-transform duration-300 ${
-          isBooked
-            ? 'text-neutral-400 cursor-not-allowed' // Gray color and no click for booked seats
-            : isSelected
-            ? 'text-violet-600 scale-110' // Slight scaling for selected seats
-            : `${seatColors[seatType]} hover:scale-110` // Hover effect for unselected seats
+          //  isBooked && isSelected
+          //  ? 'text-violet-600 scale-110' // Slight scaling for selected seats
+          //  :
+          //   isBooked
+          //   ? 'text-neutral-400 cursor-not-allowed' // Gray color and no click for booked seat
+          //   : isSelected
+          //   ? 'text-violet-600 scale-110' // Slight scaling for selected seats
+          //   : `${seatColors[seatType]} hover:scale-110` // Hover effect for unselected seats
+            ( ()=>{
+                if(isBooked && isSelected){
+                  return 'text-violet-600 scale-110';
+                }
+                else if(isBooked){
+                  return 'text-neutral-400 cursor-not-allowed';
+                }
+                else if(isSelected){
+                  return 'text-violet-600 scale-110';
+                }
+                else{
+                  return `${seatColors[seatType]} hover:scale-110`;
+                }
+             })()
         }`}
-        onClick={!isBooked ? onClick : null} // Disable click for booked seats
+        onClick={isSelected && isBooked ? onClick : !isBooked ? onClick : null} // Disable click for booked seats
       />
       <p
         className={`text-sm font-medium ${
@@ -196,6 +215,8 @@ const AircraftSeatLayout = ({ seatConfig, flight_ID }) => {
   const navigate = useNavigate();
 
   const accessToken = localStorage.getItem('accessToken');
+
+  const [Aircraft_ID, setAircraft_ID] = useState(null);
 
   const[prices,setPrices] = useState({
     Economy: '',
@@ -220,6 +241,46 @@ const AircraftSeatLayout = ({ seatConfig, flight_ID }) => {
         console.error('Error fetching flight schedule:', error);
       });
   }, [flight_ID]);
+
+  useEffect(()=>{
+     axios.get(`http://localhost:5174/schedule/modify/id?id=${flight_ID}`)
+     .then((response)=>{
+        setAircraft_ID(response.data.Aircraft_ID);
+        console.log('Aircraft ID:', response.data.Aircraft_ID);
+     })
+     .catch((error)=>{
+        console.error('Error fetching flight schedule:', error);
+     })
+
+
+
+  },[flight_ID]); 
+
+  useEffect(()=>{
+    const PselectedSeats = JSON.parse(localStorage.getItem('selectedSeats'));
+    if(PselectedSeats){
+      setSelectedSeats(PselectedSeats);
+    }
+  },[]);
+
+  useEffect(()=>{
+    if(selectedSeats.length > 0){
+      console.log('Selected Seats:', selectedSeats);
+    }
+  },[selectedSeats]);
+
+  useEffect(()=>{
+    if(Aircraft_ID){
+      console.log('Aircraft ID from var:', Aircraft_ID);
+    }
+    else{
+      console.log('Aircraft ID not found');
+    }
+    
+  },[Aircraft_ID]);
+
+
+
 
   useEffect(() => {
 
@@ -249,22 +310,11 @@ const AircraftSeatLayout = ({ seatConfig, flight_ID }) => {
 
   const handleConfirmation = () => {
      localStorage.setItem('selectedSeats', JSON.stringify(selectedSeats));
+     console.log('Selected Seats:', selectedSeats);
      if (selectedSeats.length === 0) {
       alert('Please select at least one seat');
      }
      else{
-      axios
-      .get(`http://localhost:5174/schedule/modify/id?id=${flight_ID}`)
-      .then((response) => {
-        const Aircraft_ID = response.data.Aircraft_ID;
-        axios
-          .put(`http://localhost:5174/schedule/set-seat-status`, {
-            Flight_ID: flight_ID,
-            Aircraft_ID,
-            SelectedSeat: selectedSeats
-          })
-          .then((response) => {
-            // console.log('Seat Data:', response.data);
             console.log('Selected Seats:', selectedSeats);
             if(accessToken) {
                const seat_num = selectedSeats[0].split("-")[1];
@@ -291,24 +341,42 @@ const AircraftSeatLayout = ({ seatConfig, flight_ID }) => {
             else{
               navigate(`/passanger-details/${selectedSeats[0]}`, { state: { selectedSeats,flight_ID,prices} });
             }
+          }
+  };
+
+
+  const ToggleSeatStatus =(Class_ID,seat_num)=>{
+      axios.put(`http://localhost:5174/schedule/toggle-seat-status`,{
+        Flight_ID: flight_ID,
+        Class_ID: Class_ID,
+        seat_num: seat_num
+      })
+      .then((response) => {
+           console.log('Seat updated', response.data);
+           axios
+          .get(`http://localhost:5174/schedule/seat-status/${flight_ID}`)
+          .then((response) => {
+            setSeatData(response.data);
+            console.log('Seat Data:', response.data);
           })
           .catch((error) => {
             console.error('Error fetching flight schedule:', error);
           });
-      })
+          })
       .catch((error) => {
-        console.error('Error fetching flight schedule:', error);
+        console.error('Error updating seat:', error);
       });
-     }
-  };
+  }
 
   const handleSeatClick = (seatNumber, seatType) => {
     const seatIdentifier = `${seatType}-${seatNumber}`;
     if (selectedSeats.includes(seatIdentifier)) {
       setSelectedSeats(selectedSeats.filter((seat) => seat !== seatIdentifier));
+      ToggleSeatStatus(ClassType[seatType],seatNumber);
     } else {
       if(accessToken && selectedSeats.length < 1) {
         setSelectedSeats([...selectedSeats, seatIdentifier]);
+        ToggleSeatStatus(ClassType[seatType],seatNumber);
       }
       else if(accessToken && selectedSeats.length >= 1)
       {
@@ -316,6 +384,7 @@ const AircraftSeatLayout = ({ seatConfig, flight_ID }) => {
       }
       else if (selectedSeats.length < 10) {
         setSelectedSeats([...selectedSeats, seatIdentifier]);
+        ToggleSeatStatus(ClassType[seatType],seatNumber);
           } else {
             alert('You can only select a maximum of 10 seats');
           }
@@ -324,24 +393,27 @@ const AircraftSeatLayout = ({ seatConfig, flight_ID }) => {
 
   const renderSeats = (totalSeats, seatType) => {
     let seats = [];
-    for (let i = 1; i <= totalSeats; i++) {
-      const seatInfo = seatData.find(
-        (seat) => seat.ClassType === seatType && seat.seat_num === i
-      );
-      const isBooked = seatInfo ? seatInfo.Booked === 'yes' : false;
+        for (let i = 1; i <= totalSeats; i++) {
+          const seatInfo = seatData.find(
+            (seat) => seat.ClassType === seatType && seat.seat_num === i
+          );
+          const isBooked = seatInfo ? seatInfo.Booked === 'yes' : false;
 
-      seats.push(
-        <Seat
-          key={`${seatType}-${i}`}
-          seatNumber={i}
-          seatType={seatType}
-          isSelected={selectedSeats.includes(`${seatType}-${i}`)}
-          onClick={() => handleSeatClick(i, seatType)}
-          isBooked={isBooked}
-        />
-      );
-    }
-    return seats;
+          // const P_selected = PselectedSeats.includes(`${seatType}-${i}`);
+
+            seats.push(
+              <Seat
+                key={`${seatType}-${i}`}
+                seatNumber={i}
+                seatType={seatType}
+                isSelected={selectedSeats.includes(`${seatType}-${i}`)}
+                onClick={() => handleSeatClick(i, seatType)}
+                isBooked={isBooked}
+              />
+            );
+          
+        }
+        return seats;
   };
 
   const renderSeatLayout = () => {
