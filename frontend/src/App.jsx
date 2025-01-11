@@ -39,6 +39,7 @@ import PassengerInfo from "./Pages/PassengerInformation";
 import PassangerDetails from "./Pages/PassangerDetails";
 import SingUp from "./components/SingUp/singup";
 import Ticket from "./Pages/Ticket/Ticket";
+import PaymentSuccess from "./Pages/Payment/Payment";
 
 
 
@@ -55,6 +56,7 @@ const App = () => {
                 <Routes>
                   <Route path="/" element={<Home />} /> 
                   <Route path="/login" element={<Loginpage />} />
+                  <Route path="/paymentsuccess" element={<PaymentSuccess/>} />
                   <Route path="/singup" element={<SingUp />} />
                   <Route path = "/ticket" element = {<Ticket/>}/>
                   <Route path="/admin/schedule" element={<SchedulePage />} />

@@ -6,8 +6,8 @@ import Hero from "./Hero/Hero";
 const Home = () => {
   useEffect(() => {
     localStorage.removeItem("selectedSeats");
-    // localStorage.setItem("selectedSeats", JSON.stringify([]));
-    // console.log("selectedSeats", JSON.parse(localStorage.getItem("selectedSeats")));
+    localStorage.setItem("finalBooking", JSON.stringify([]));
+    console.log("Final Seats", JSON.parse(localStorage.getItem("finalBooking")));
   }, []);
   return (
     <div>

@@ -110,7 +110,7 @@ router.put("/makeTicketPaid",(req,res)=>{
 
 
 router.delete("/undoBooking/undoTicket",(req,res)=>{
-    const {Ticket_ID} = req.query;
+    const {Ticket_ID,Token} = req.query;
     UndoBooking(Ticket_ID)
     .then((result)=>{
         res.status(200).json({message:"Booking Undo Successfully"});

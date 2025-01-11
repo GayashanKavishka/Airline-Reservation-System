@@ -3,10 +3,14 @@ import "./Ticket.css";
 import { useNavigate, useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import axios from "axios";
+import PaymentSuccess from "../Payment/Payment";
 
 const Ticket = () => {
   const navigate = useNavigate();
   const location = useLocation();
+
+
+  const accessToken = localStorage.getItem("accessToken");
 
   const selectedSeats = location.state.duplicateselectedSeats;
   const flight = location.state.flight_ID;
@@ -42,6 +46,29 @@ const Ticket = () => {
     fetchTickets();
   }, [selectedSeats, flight]);
 
+  // for delete tickets after 10 minuets of booking
+  useEffect(()=>{
+    const timer = setTimeout(() => {
+      console.log("Ticketdetails",TicketID);
+      if(TicketID.length > 0){
+        const request = TicketID.map((ticket)=>{
+          return axios.delete(`http://localhost:5174/reservation/undoBooking/undoTicket?Ticket_ID=${ticket}&Token=${accessToken}`)
+        })
+        
+        Promise.all(request)
+        .then((res)=>{
+          console.log("Deleted Successfully after 10min",res);
+          alert("Time Out for Payment Please Book Again");
+          navigate("/schedule")
+        })
+        .catch((err)=>{
+          console.log("Error in Deleting",err);
+        })
+      }
+    },600000);
+    return () => clearTimeout(timer);
+  },[TicketID])
+
   useEffect(() => {
     console.log("details", Ticketdetails);
     setTicketID(
@@ -62,6 +89,7 @@ const Ticket = () => {
         .then((res)=>{
             console.log("Paid Successfully",res);
             alert("Payment Successful");
+            navigate("/paymentsuccess",{state:{PaymentSuccess:true}});
         })
         .catch((err)=>{
             console.log("Error in Payment",err);
@@ -72,7 +100,8 @@ const Ticket = () => {
 
 
   const DeleteTicket =(Ticket_ID,ClassType,Seat_num)=>{
-    axios.delete(`http://localhost:5174/reservation/undoBooking/undoTicket?Ticket_ID=${Ticket_ID}`)
+    console.log("Ticket_ID",Ticket_ID,"accessToken",accessToken);
+    axios.delete(`http://localhost:5174/reservation/undoBooking/undoTicket?Ticket_ID=${Ticket_ID}&Token=${accessToken}`)
     .then((res)=>{
         console.log("Deleted Successfully",res);
         alert("Ticket Cancelled Successfully");
@@ -118,6 +147,7 @@ const Ticket = () => {
                 <p><strong>Departure:</strong> {ticket.Departure}</p>
                 <p><strong>Arrival:</strong> {ticket.Arrival}</p>
                 <p><strong>Class:</strong> {ticket.ClassType}</p>
+                <p><strong>Seat Number:</strong> {ticket.seat_num}</p>
                 <div style={{display: "flex", gap: "20px"}}>
                 <p><strong>Price:</strong> {ticket.Price}</p>
                 {ticket.Discount !== null ?(<p><strong>Discount:</strong>{ticket.Discount}</p>):(<p><strong>Discount:</strong> No discount </p>)}
@@ -137,7 +167,23 @@ const Ticket = () => {
   };
 
   return (
-    <div >
+    <div style={{display:"flex",flexDirection:"column",alignItems:"center"}}>
+     <div className="flex space-x-10 " style={{marginBottom:'50px',marginTop:'50px'}}>
+          <div className="block bg-white/10 backdrop-blur-md rounded-full py-7 px-12">
+                  <h2 className="text-white text-6xl font-bold">1</h2>
+                </div>
+                
+                <div className="block bg-white/10 backdrop-blur-md rounded-full py-7 px-12">
+                  <h2 className="text-white text-6xl font-bold">2</h2>
+                </div>
+                <div className="block bg-white/10 backdrop-blur-md rounded-full py-7 px-12">
+                  <h2 className="text-white text-6xl font-bold">3</h2>
+                </div>
+                <div className="block bg-gradient-to-r from-blue-500 to-blue-700 rounded-full py-7 px-12">
+                  <h2 className="text-white text-6xl font-bold">4</h2>
+                </div>
+                
+          </div>
     <div className="ticket-container">
       {selectedSeats.length > 1 ?(<h1 className="oluwa">My Tickets</h1>):(<h1 className="oluwa">My Ticket</h1>)}
       {Ticketdetails.length > 0 ? (
@@ -153,7 +199,7 @@ const Ticket = () => {
     </div>
     {selectedSeats.length === 0 ?(<div className="back-button">
       <button className="back" onClick={() => navigate("/")}>
-        Back  <i class="fa fa-arrow-left" style={{fontSize:"1px"}}></i>
+        Back <i class='fas fa-arrow-alt-circle-left'></i>
       </button>
     </div>):
     (<h1></h1>)}

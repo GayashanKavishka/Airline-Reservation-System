@@ -208,19 +208,37 @@ const MakeATicket = (Class_ID,Flight_ID,seat_price,seat_num,Passenger_ID)=>{
   }
 
 
-  const UndoBooking = (Ticket_ID)=>{
+  const UndoBooking = (Ticket_ID,Token)=>{
     return new Promise((resolve,reject)=>{
-      query = 'call UndoBokking(?)';
-      connection.query( query,[Ticket_ID],(err,results)=>{
+      query1 = 'call UndoBokking(?)';
+      query2 = 'call DeleteTicketForReg(?)'
+      if(Token !== null){
+      connection.query( query2,[Ticket_ID],(err,results)=>{
          if(err)
-         {
-             reject('Error Undoing Booking:',err.stack);
+         {    
+             console.log('Error Undoing Booking Register:',err.stack);
+             reject('Error Undoing Booking Register:',err.stack);
          }
          else{
-            console.log('Booking Undone Successfully');
+            console.log('Booking Register Undone Successfully');
              resolve(results);
          }
     })
+  }
+  else{
+    connection.query( query1,[Ticket_ID],(err,results)=>{
+      if(err)
+      {
+          console.log('Error Undoing Booking:',err.stack);
+          reject('Error Undoing Booking:',err.stack);
+          
+      }
+      else{
+         console.log('Booking Undone Successfully');
+          resolve(results);
+      }
+ })
+  }
   })
 };
 
