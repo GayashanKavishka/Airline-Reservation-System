@@ -1,6 +1,6 @@
 # Airline Reservation System
 
-![Welcome Page](./path/to/welcome-page-image.png)
+![Welcome Page](https://github.com/GayashanKavishka/Airline-Reservation-System/blob/main/Welcome.png)
 
 ## Table of Contents
 - [About the Project](#about-the-project)
@@ -43,23 +43,22 @@ The **Airline Reservation System** is a modern web-based application designed to
 ## Screenshots
 
 ### Welcome Page
-![Welcome Page](./path/to/welcome-page-image.png)
+![Welcome Page](https://github.com/GayashanKavishka/Airline-Reservation-System/blob/main/Welcome.png)
 
 ### Flight Search
-![Flight Search](./path/to/flight-search-image.png)
+![Flight Search](https://github.com/GayashanKavishka/Airline-Reservation-System/blob/main/FlightSearch.png)
 
 ### Available Flights Table
-![Available Flights Table](./path/to/available-flights-table-image.png)
+![Available Flights Table](https://github.com/GayashanKavishka/Airline-Reservation-System/blob/main/Available%20Flight%20Details.png)
 
 ### Seat Booking
-![Seat Booking](./path/to/seat-booking-image.png)
+![Seat Booking](https://github.com/GayashanKavishka/Airline-Reservation-System/blob/main/Seat_booking.png)
 
 ### Passenger Details Form
-![Passenger Details](./path/to/passenger-details-image.png)
+![Passenger Details](https://github.com/GayashanKavishka/Airline-Reservation-System/blob/main/Passenger_detail_fillinf.png)
 
 ### Ticket and Payment Confirmation
-![Ticket and Payment](./path/to/ticket-payment-image.png)
-
+![Ticket and Payment](https://github.com/GayashanKavishka/Airline-Reservation-System/blob/main/Tickets.png)
 ---
 
 ## Installation
@@ -91,11 +90,11 @@ The **Airline Reservation System** is a modern web-based application designed to
 6. Start the development servers:
    - Frontend:
      ```bash
-     npm start
+     npm run dev
      ```
    - Backend:
      ```bash
-     npm run dev
+     npm start
      ```
 
 ---
@@ -104,7 +103,7 @@ The **Airline Reservation System** is a modern web-based application designed to
 
 1. Open the application in your browser:
    ```
-   http://localhost:3000
+   http://localhost:5173
    ```
 
 2. Search for available flights, select seats, and book tickets.
