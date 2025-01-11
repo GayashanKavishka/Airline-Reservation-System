@@ -35,8 +35,8 @@ The **Airline Reservation System** is a modern web-based application designed to
 
 - **Frontend**: React, Tailwind CSS, Bootstrap
 - **Backend**: Node.js, Express.js
-- **Database**: MongoDB
-- **APIs**: RESTful API integration
+- **Database**: MySQL
+- **APIs**: REST APIs
 
 ---
 
