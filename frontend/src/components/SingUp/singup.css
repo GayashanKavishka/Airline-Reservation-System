@@ -322,4 +322,22 @@
     animation: slideInDown 1s ease-out forwards;
   }
 
+  .tttt{
+    font-size: 18px;
+    text-shadow: 8px 8px 8px rgba(0, 0, 0, 0.5);
+    font-weight: bold;
+    margin-bottom: 20px;
+    letter-spacing: 2px;
+  }
+
+  /* @media (max-width: 768px) {
+    .login-page-container {
+      flex-direction: column;
+      justify-content: center;
+    }
+    .login-left, .signup-right-container {
+      width: 100%;
+      border-radius: 0;
+    }
+  } */
   

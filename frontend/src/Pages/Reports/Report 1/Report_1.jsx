@@ -48,7 +48,7 @@ const Report1 = () => {
                         className="input"
                     />
                 </div>
-                <button type="submit" className="b">Submit</button>
+                <button type="submit" className="b" style={{height:"50px",marginTop:"30px"}}>Submit</button>
             </form>
 
             {bookings.length > 0 && (
@@ -75,3 +75,6 @@ const Report1 = () => {
 };
 
 export default Report1;
+
+
+

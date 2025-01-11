@@ -31,7 +31,7 @@ const Hero = () => {
   };
 
   return (
-    <div className="w-full h-[calc(100vh-8ch)] lg:ps-28 md:ps-16 sm:ps-7 ps-4 mt-[8ch] flex items-center justify-center flex-col hero relative">
+    <div className="w-full h-[calc(100vh-8ch)]  flex items-center justify-center flex-col hero relative">
       <Navbar />
       <div className="flex-1 w-full flex items-stretch justify-between gap-12 pb-10">
         <motion.div

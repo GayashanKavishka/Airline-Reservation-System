@@ -61,6 +61,7 @@ const Schedule = ({ isAdmin }) => {
                                             <th>Departure Time</th>
                                             <th>Expected Arrival Time</th>
                                             <th>Price</th>
+                                            <th>Status</th>
                                             <th>Book</th>
                                         </tr>
                                     </thead>
@@ -74,6 +75,15 @@ const Schedule = ({ isAdmin }) => {
                                                 <td>{new Date(item.Departure_date_time).toLocaleString()}</td>
                                                 <td>{new Date(item.Expected_arrival_date_time).toLocaleString()}</td>
                                                 <td>{item.Flight_price}</td>
+                                                <td
+                                                    className={`${
+                                                        item.Status === 'on-time'
+                                                            ? 'text-success'
+                                                            : item.Status === 'delayed'
+                                                            ? 'text-warning'
+                                                            : 'text-danger'
+                                                    }`}
+                                                >{item.Status}</td>
                                                 <td>
                                                     <button 
                                                         className="btn btn-success" 

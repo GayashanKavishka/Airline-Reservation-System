@@ -1,4 +1,5 @@
 const connection = require('../database/connection');
+const bcrypt = require('bcrypt');
 
 // Function to initialize the database (e.g., create tables if they don't exist)
 const usersQuery = () => {
@@ -148,4 +149,37 @@ const GetPassengerCountByDestinationAndDateRange = (shortCode, startDate, endDat
   });
 };
 
-module.exports = { usersQuery, insertUser, getUserByEmail, updateUserById, deleteUserById, countUsers, GetPassengerAgeGroupByFlight, GetPassengerCountByDestinationAndDateRange };
+
+const GetPassengerdetails = (Passenger_ID) => {
+      return new Promise((resolve, reject) => {
+         const query = `call GetPassengerDetailsByID(?)`;
+         connection.query(query, [Passenger_ID], (err, results) => {
+            if (err) {
+               reject('Error fetching passenger details:', err.stack);
+            } else {
+               resolve(results[0]);
+            }
+         });
+      });
+}
+
+
+const UpdatePassenger = (data)=>{
+    const {firstName,lastName,Country,DOB,Email,phone_num,City,Address,username,password,passwordID} = data;
+    return new Promise((resolve, reject) => {
+        console.log("Original Password:",password);
+        const hashedPassword = bcrypt.hashSync(password, 8);
+        console.log("Hashed Password",hashedPassword);
+        const query = `call UpdatePassenger(? , ? , ? , ? , ? , ? , ? , ? , ? , ?, ?)`;
+        connection.query(query, [firstName, lastName, Country, DOB, Email, phone_num,City,Address,username ,hashedPassword,passwordID], (err, results) => {
+          if (err) {
+            reject('Error updating user:', err.stack);
+          } else {
+            console.log('User updated successfully.');
+            resolve(results);
+          }
+        });
+      });
+}
+
+module.exports = { usersQuery, insertUser, getUserByEmail, updateUserById, deleteUserById, countUsers, GetPassengerAgeGroupByFlight, GetPassengerCountByDestinationAndDateRange,GetPassengerdetails ,UpdatePassenger};

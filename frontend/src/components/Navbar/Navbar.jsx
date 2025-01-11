@@ -5,6 +5,7 @@ import { AuthContext } from "../../helpers/AuthContext";
 import { useState, useEffect } from "react";
 import{jwtDecode} from "jwt-decode"
 import axios from "axios";
+import user from "../../assets/Images/user.png";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -37,7 +38,7 @@ const Navbar = () => {
   }, []);
 
   const handleSignInClick = () => {
-    navigate("/login"); // Navigate to the login page
+    navigate("/singup"); // Navigate to the login page
   };
 
   const handleScheduleClick = () => {
@@ -49,6 +50,9 @@ const Navbar = () => {
     setAuthState(false);
     navigate("/");
   };
+  const handleLogInClick=()=>{
+    navigate("/login");
+  }
 
   return (
     <AuthContext.Provider value={{ authState, setAuthState }}>
@@ -65,7 +69,7 @@ const Navbar = () => {
             <>
               <button
                 className="px-3 py-1 rounded-md border-[2px] border-blue-400 border-solid blueShadow gap-4"
-                onClick={handleSignInClick}
+                onClick={handleLogInClick}
               >
                 <p>Log In</p>
               </button>
@@ -73,12 +77,13 @@ const Navbar = () => {
                 className="px-3 py-1 rounded-md border-[2px] border-blue-400 border-solid blueShadow gap-4"
                 onClick={handleSignInClick}
               >
-                <p>Sign In</p>
+                <p>Sign Up</p>
               </button>
             </>
           ) : (
             <div style={{display:"flex", alignItems:"center", gap:"10px"}}>
             <p> <span style={{color:"yellow"}}>Logged :</span>{name}</p>
+            <img src={user} alt="user" className="h-10 w-10 rounded-full"/>
             <button
               className="px-3 py-1 rounded-md border-[2px] border-blue-400 border-solid blueShadow gap-4"
               onClick={handleLogOutClick}

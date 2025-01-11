@@ -469,7 +469,15 @@ const Loginpage = () => {
     )
     .catch((err)=>{
       console.log(err);
-      alert("User Login Failed");
+      if(err.response.status === 400){
+        alert("Username and password are required.");
+      }
+      else if(err.response.status === 501){
+        alert("Invalid username or Password");
+      }
+      else{
+        alert("Login Failed");
+      }
     });
     }
   
@@ -494,9 +502,9 @@ const Loginpage = () => {
           stay updated with the latest university news.
         </p> */}
         <p className = "wwww" style = {{color:"white",fontWeight:"bold"}}>
-              Login Gets Rewads and Discounts
+      Login Gets <span style={{color:"blue"}}>Rewads</span> and <span style={{color:"blue"}}>Discounts !</span> 
         </p>
-        <p className="cta-text">Login Gets Rewads and Discounts</p>
+        <p className="cta-text">Login Gets <span style={{color:"blue"}}>Rewads</span> and <span style={{color:"blue"}}>Discounts</span></p>
       </div>
 
       {/*Right Section */}
