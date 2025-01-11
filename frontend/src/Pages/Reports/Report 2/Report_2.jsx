@@ -47,7 +47,7 @@ const Report2 = () => {
                         className="input"
                     />
                 </div> */}
-                <button type="submit" className="b">Submit</button>
+                <button type="submit" className="b" style={{height:"50px",marginTop:"30px"}} >Submit</button>
             </form>
 
             {Passanger.length > 0 && (

@@ -51,7 +51,7 @@ const Report4 = () => {
                         className="input"
                     />
                 </div> */}
-                <button type="submit" className="b">Find</button>
+                <button type="submit" className="b" style={{height:"50px",marginTop:"30px"}} >Find</button>
             </form>
 
             {RevByAir.length > 0 && (

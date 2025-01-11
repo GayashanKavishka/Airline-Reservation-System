@@ -65,7 +65,7 @@ const SingUp = () => {
 
 
   return (
-    <div>
+    <div className = "singup-container">
     <Navbar />
     <div className="login-page-container">
       <div className="login-left">
@@ -86,7 +86,7 @@ const SingUp = () => {
           Empowering students and enriching the university experience with
           innovation and connectivity.
         </p>  */}
-        <p className="tttt" style = {{color:"white",fontWeight:"bold"}} >Gather with us to experience unbelivealble discounts</p>
+        <p className="tttt" style = {{color:"white",fontWeight:"bold"}} >Gather with us to experience <span style={{color:"blue"}}>unbelivealble discounts</span></p>
       </div>
 
       {/*Right Section */}

@@ -106,7 +106,7 @@ router.post("/login", (req, res) => {
     UserValidate(username)
         .then((user) => {
             if (!user) {
-                return res.json({ error: "Invalid username." });
+                return res.status(501).json({ error: "Invalid username." });
             }
 
             console.log("user",user);
@@ -116,7 +116,7 @@ router.post("/login", (req, res) => {
             bcrypt.compare(password, hashedPassword)
                 .then((match) => {
                     if (!match) {
-                        return res.json({ error: "Invalid password." });
+                        return res.status(501).json({ error: "Invalid password." });
                     }
 
                     console.log(user[0][0].Username, user[0][0].Passenger_ID);
@@ -130,12 +130,12 @@ router.post("/login", (req, res) => {
                 })
                 .catch((err) => {
                     console.error("Error comparing passwords:", err);
-                    res.json({ error: "Failed to log in user." });
+                    res.status(500).json({ error: "Failed to log in user." });
                 });
         })
         .catch((err) => {
             console.error("Error logging in user:", err);
-            res.json({ error: "Failed to log in user." });
+            res.status(500).json({ error: "Failed to log in user." });
         });
 
     

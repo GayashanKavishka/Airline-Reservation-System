@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const {insertUser, getUserByEmail, countUsers, GetPassengerAgeGroupByFlight, GetPassengerCountByDestinationAndDateRange} = require('../models/Users');
+const {insertUser, getUserByEmail, countUsers, GetPassengerAgeGroupByFlight, GetPassengerCountByDestinationAndDateRange,GetPassengerdetails,UpdatePassenger} = require('../models/Users');
 const {insertRegistered, getRegisteredByUsername} = require('../models/RegisteredUsers');
 const bcrypt = require("bcrypt");
 const { sign } = require("jsonwebtoken");
@@ -148,6 +148,29 @@ router.get('/admin/report3', async (req, res) => {
         res.json({ error: error.message });
     }
 });
+
+
+router.get('/get/passengerdetails', async (req, res) => {
+    const Passenger_ID = req.query.Passenger_ID;
+    try {
+        const passengerdetails = await GetPassengerdetails(Passenger_ID);
+        res.status(200).json(passengerdetails[0]);
+    } catch (error) {
+        console.error("Error fetching passenger details:", error);
+        res.status(500).json({ error: error.message });
+    }
+});
+
+router.put('/update/passenger', async (req, res) => {
+    const data = req.body;
+    try {
+        const updatedPassenger = await UpdatePassenger(data);
+        res.status(200).json(updatedPassenger);
+    } catch (error) {
+        console.error("Error updating passenger details:", error);
+        res.status(500).json({ error: error.message });
+    }
+})
 
 
 

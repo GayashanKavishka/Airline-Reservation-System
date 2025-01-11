@@ -1,4 +1,5 @@
 import React from "react";
+import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Footer from "./components/Footer/Footer";
 import Home from "./Pages/Home/Home";
@@ -40,10 +41,20 @@ import PassangerDetails from "./Pages/PassangerDetails";
 import SingUp from "./components/SingUp/singup";
 import Ticket from "./Pages/Ticket/Ticket";
 import PaymentSuccess from "./Pages/Payment/Payment";
+import AccountDetails from "./Pages/AccountDetails/AccountDetails";
+import Hero from "./Pages/Home/Hero/Hero";
+
 
 
 
 const App = () => {
+  
+  const handleOnClickFunction = () => {
+    const footer = document.getElementById("footer");
+    footer.scrollIntoView({ behavior: "smooth" });
+  }
+
+
   return (
     <AuthProvider>
       <div>
@@ -54,10 +65,12 @@ const App = () => {
               {/* <div style={{ marginTop: '80px' }}> */}
               <div>
                 <Routes>
-                  <Route path="/" element={<Home />} /> 
+                  <Route path="/" element={<Home OnClickFunction={ handleOnClickFunction} />} /> 
                   <Route path="/login" element={<Loginpage />} />
                   <Route path="/paymentsuccess" element={<PaymentSuccess/>} />
                   <Route path="/singup" element={<SingUp />} />
+                  <Route path ="/hero" elemet={<Hero/>}/>
+                  <Route path ="/accountdetails" element ={<AccountDetails/>}/>
                   <Route path = "/ticket" element = {<Ticket/>}/>
                   <Route path="/admin/schedule" element={<SchedulePage />} />
                   <Route path="/schedule" element={<SchedulePage />} />
@@ -108,7 +121,10 @@ const App = () => {
             </main>
           </div>
         </Router>
+        <div id = "footer">
         <Footer />
+        </div>
+        
       </div>
     </AuthProvider>
   );
