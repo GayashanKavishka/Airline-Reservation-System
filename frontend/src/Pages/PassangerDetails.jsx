@@ -75,14 +75,14 @@ const PassangerDetails = () => {
             console.log(response.data);
             alert('Passanger inserted successfully');
             console.log("details",Class_ID,flight_ID,seat_num,seat_price);
-            // const selected = JSON.parse(localStorage.getItem('selected'));
+            // const selected = JSON.parse(localStorage.getItem('finalBooking'));
             // const ss = JSON.parse(localStorage.getItem('selectedSeats'));
-            // console.log("selected 1",selected);
+            // console.log("final",selected);
             // console.log("ss",ss);
-            // const selectedSeats = selected.shift();
-            // ss.push(selectedSeats);
-            // localStorage.setItem('selectedSeats', JSON.stringify(ss));
-            // localStorage.setItem('selected', JSON.stringify(selected));
+            // const selectedSeats = ss.shift();
+            // selected.push(selectedSeats);
+            // localStorage.setItem('finalBooking',JSON.stringify(selected));
+            // localStorage.setItem('selectedSeats',JSON.stringify(ss));
             // // const seat_num =  parseFloat(selectedSeats[0].split('-')[1]);
             // // const seat_type = selectedSeats[0].split('-')[0];
             // // const Class_ID = seat_types[seat_type];
@@ -114,12 +114,20 @@ const PassangerDetails = () => {
           return;
         }
         InsertPassanger();
+        const selected = JSON.parse(localStorage.getItem('finalBooking'));
+        const ss = JSON.parse(localStorage.getItem('selectedSeats'));
+        console.log("final",selected);
+        console.log("ss",ss);
+        const seat = ss.shift();
+        selected.push(seat);
+        localStorage.setItem('finalBooking',JSON.stringify(selected));
+        localStorage.setItem('selectedSeats',JSON.stringify(ss));
         if(selectedSeats.length === 1){
             console.log('Selected Seats:', selectedSeats);
             console.log("navigate to payment page");
-            const duplicateselectedSeats = JSON.parse(localStorage.getItem('selectedSeats'));
+            const duplicateselectedSeats = JSON.parse(localStorage.getItem('finalBooking'));
             console.log("duplicateselectedSeats",duplicateselectedSeats);
-            localStorage.removeItem('selectedSeats');
+            // localStorage.removeItem('selectedSeats');
             navigate('/ticket', { state: { duplicateselectedSeats,flight_ID,prices } });
         }
         else

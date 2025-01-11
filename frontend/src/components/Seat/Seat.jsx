@@ -309,6 +309,7 @@ const AircraftSeatLayout = ({ seatConfig, flight_ID }) => {
 
 
   const handleConfirmation = () => {
+     
      localStorage.setItem('selectedSeats', JSON.stringify(selectedSeats));
      console.log('Selected Seats:', selectedSeats);
      if (selectedSeats.length === 0) {
@@ -317,6 +318,11 @@ const AircraftSeatLayout = ({ seatConfig, flight_ID }) => {
      else{
             console.log('Selected Seats:', selectedSeats);
             if(accessToken) {
+               const responce = confirm("Are you sure you want to book these seat? You cant't undo this action");
+               if(!responce){
+                  return;
+               }
+               else{
                const seat_num = selectedSeats[0].split("-")[1];
                const type = selectedSeats[0].split("-")[0];
                console.log(accessToken);
@@ -337,6 +343,7 @@ const AircraftSeatLayout = ({ seatConfig, flight_ID }) => {
                 .catch((error) => {
                   console.error('Error fetching flight schedule:', error);
                 });
+              }
             }
             else{
               navigate(`/passanger-details/${selectedSeats[0]}`, { state: { selectedSeats,flight_ID,prices} });
