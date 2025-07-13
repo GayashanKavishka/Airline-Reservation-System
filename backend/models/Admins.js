@@ -22,7 +22,7 @@ const adminsQuery = () => {
 
 
     const createAdminsTableQuery = `
-          CREATE TABLE IF NOT EXISTS Admin (
+          CREATE TABLE IF NOT EXISTS admin (
               Admin_ID VARCHAR(30) PRIMARY KEY,
               Password VARCHAR(30),
               Name VARCHAR(30),

@@ -174,7 +174,7 @@ const AdminScheduleFlight = () => {
     const GiveColor = (item) => {
         if (item.Status === "delayed") {
             return <td className="text-yellow-500 font-semibold border border-gray-700">{item.Status}</td>;
-        } else if (item.Status === "canceled") {
+        } else if (item.Status === "cancelled") {
             return <td className="text-red-500 font-semibold border border-gray-700">{item.Status}</td>;
         } else {
             return <td className="text-green-500 font-semibold border border-gray-700">{item.Status}</td>;

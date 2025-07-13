@@ -12,7 +12,7 @@ const aircraftsQuery = () => {
     // `;
 
     const createAircraftTableQuery = `
-              CREATE TABLE IF NOT EXISTS Aircraft (
+              CREATE TABLE IF NOT EXISTS aircraft (
               Aircraft_ID INT AUTO_INCREMENT PRIMARY KEY,
               Model_ID INT,
               FOREIGN KEY (Model_ID) REFERENCES Aircraft_model(Model_ID)
@@ -53,10 +53,10 @@ const aircraftsQuery = () => {
 const insertAircraft = (aircraft_ID,model_name) => {
   return new Promise((resolve, reject) => {
     const insertAircraftQuery = `
-      INSERT INTO Aircraft (Aircraft_ID,Model_ID)
+      INSERT INTO aircraft (Aircraft_ID,Model_ID)
       VALUES (?,?);
     `;
-    const selectModelID = `SELECT Model_ID FROM Aircraft WHERE Model_name = ?`;
+    const selectModelID = `SELECT Model_ID FROM aircraft_model WHERE Model_name = ?`;
     connection.query(selectModelID,[model_name], (err, results) => {
       if (err) {
         reject('Error inserting aircraft: ' + err.stack);

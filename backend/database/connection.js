@@ -7,6 +7,13 @@ const connection = mysql.createConnection({
   password: 'Gaya@123',  // Database password
   // database: 'Bairways'  // Database password
     database: 'bairways'
+
+  // host: "sql12.freesqldatabase.com",
+  //   // host: "localhost",
+  // user: 'sql12789658',      // Database user
+  // password: 'w3BfNKizPn',  // Database password
+  // // database: 'Bairways'  // Database password
+  //   database: 'sql12789658'
 });
 
 // Connect to the database

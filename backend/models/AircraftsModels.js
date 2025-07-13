@@ -4,7 +4,7 @@ const connection = require('../database/connection');
 const modelsQuery = () => {
   return new Promise((resolve, reject) => {
     const createModelsTableQuery = `
-      CREATE TABLE IF NOT EXISTS Aircraft_model (
+      CREATE TABLE IF NOT EXISTS aircraft_model (
           Model_ID INT AUTO_INCREMENT PRIMARY KEY,
           Model_name VARCHAR(10),
           EconomyClassSeatCount INT,
@@ -25,9 +25,10 @@ const modelsQuery = () => {
 
 // Function to insert a model into the Aircraft_model table
 const insertModel = (modelname, Economy, Business, Platinum) => {
+  console.log(modelname, Economy, Business, Platinum);
   return new Promise((resolve, reject) => {
     const insertModelQuery = `
-      INSERT INTO Aircraft_model (Model_name, EconomyClassSeatCount, BusinessClassSeatCount, PlatinumClassSeatCount)
+      INSERT INTO aircraft_model (Model_name, EconomyClassSeatCount, BusinessClassSeatCount, PlatinumClassSeatCount)
       VALUES (?,?,?,?);
     `;
     connection.query(insertModelQuery, [modelname, Economy, Business, Platinum], (err, results) => {

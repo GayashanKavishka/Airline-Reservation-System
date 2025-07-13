@@ -20,7 +20,7 @@ const ScheduleQuery = () => {
     // `;
 
     const createScheduleTableQuery = `
-         CREATE TABLE IF NOT EXISTS FlightSchedule (
+         CREATE TABLE IF NOT EXISTS flightschedule (
             Flight_ID VARCHAR(7) PRIMARY KEY,
             Route_ID INT,
             Aircraft_ID INT,
@@ -90,7 +90,10 @@ const addSchedule = (
       (err, result) => {
         if (err) {
           reject("Error adding schedule: " + err.stack);
-        } else {
+        } 
+        
+        
+        else {
           console.log("Schedule added successfully.");
           resolve(result);
         }

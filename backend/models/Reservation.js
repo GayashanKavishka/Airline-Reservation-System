@@ -18,7 +18,7 @@ const reservationQuery = () => {
      
     
      const createBookingsTableQuery = `
-       CREATE TABLE IF NOT EXISTS Ticket (
+       CREATE TABLE IF NOT EXISTS ticket (
           Ticket_ID INT AUTO_INCREMENT PRIMARY KEY,
           Passenger_ID INT,
           Flight_ID VARCHAR(7),

@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt');
 const usersQuery = () => {
   return new Promise((resolve, reject) => {
     const createUsersTableQuery = `
-      CREATE TABLE IF NOT EXISTS Passenger (
+      CREATE TABLE IF NOT EXISTS passenger (
         Passenger_ID INT AUTO_INCREMENT PRIMARY KEY,
         FirstName VARCHAR(50),
         SecondName VARCHAR(50),

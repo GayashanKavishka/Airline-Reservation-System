@@ -57,6 +57,11 @@ const EditSchedule = () => {
             .catch(err => console.error(err));
     }, [id, location.state]);
 
+    const checkAllFieldsFilled = () => {
+        const { Modified_time, ...fieldsToCheck } = flight;
+        return Object.values(fieldsToCheck).every(value => value !== null && value !== '');
+    };
+
 
     
 
@@ -69,12 +74,17 @@ const EditSchedule = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log(flight);
+        if (!checkAllFieldsFilled()) {
+            return alert("Please fill all the fields");
+        }
         axios.put(`http://localhost:5174/schedule/update`, flight)
             .then(res => {
                 alert('Flight details updated successfully');
                 navigate('/admin/add-schedule'); // Redirect to schedule page after successful update
             })
-            .catch(err => console.error(err));
+            .catch(err => {
+                alert('This Aircraft is already scheduled for this time, please change the time and try again');
+            });
     };
 
     return (
@@ -115,6 +125,17 @@ const EditSchedule = () => {
                         onChange={handleChange}
                     />
                 </div>
+                <div className="form-group">
+                    <label htmlFor="Departure_date_time">Departure Time</label>
+                    <input
+                        type="datetime-local"
+                        className="form-control"
+                        id="Departure_date_time"
+                        name="Departure_date_time"
+                        value={flight.Departure_date_time}
+                        onChange={handleChange}
+                    />
+                </div>
 
                 <div className="form-group">
                     <label htmlFor="Expected_arrival_date_time">Expected Arrival Time</label>
@@ -129,18 +150,6 @@ const EditSchedule = () => {
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="Departure_date_time">Departure Time</label>
-                    <input
-                        type="datetime-local"
-                        className="form-control"
-                        id="Departure_date_time"
-                        name="Departure_date_time"
-                        value={flight.Departure_date_time}
-                        onChange={handleChange}
-                    />
-                </div>
-
-                <div className="form-group">
                     <label htmlFor="Departure_date_time">Status</label>
                     <select
                         className="form-control"
@@ -149,8 +158,8 @@ const EditSchedule = () => {
                         onChange={handleChange}
                         style={{ width: '230px' }}
                     >
-                        <option value="Delayed">delayed</option>
-                        <option value="Cancelled">cancelled</option>
+                        <option value="delayed">delayed</option>
+                        <option value="cancelled">cancelled</option>
                         <option value="on-time">on-Time</option>
                     </select>
                 </div>
