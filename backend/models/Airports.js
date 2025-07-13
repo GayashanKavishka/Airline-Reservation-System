@@ -4,7 +4,7 @@ const connection = require('../database/connection');
 const airportsQuery = () => {
   return new Promise((resolve, reject) => {
     const createAirportTableQuery = `
-      CREATE TABLE IF NOT EXISTS Airport (
+      CREATE TABLE IF NOT EXISTS airport (
         Airport_ID INT AUTO_INCREMENT PRIMARY KEY,
         Short_code VARCHAR(10) NOT NULL UNIQUE,
         name VARCHAR(30) NOT NULL,

@@ -32,7 +32,14 @@ const AddSchedulePage = () => {
         e.preventDefault();
         axios.post('http://localhost:5174/schedule', formData)
             .then(res => {
-                alert('Schedule added successfully!');
+                if(res.data.error == "Failed to create flight schedule.") {
+                    return alert("Aircraft have alredy shecduled for this time, please change the time and try again");
+                }
+                else{
+                    alert('Schedule added successfully!');
+                }
+                
+                console.log(res.data);
                 navigate('/admin/add-schedule'); // Redirect to schedule list page after successful addition
             })
             .catch(err => {
@@ -40,6 +47,18 @@ const AddSchedulePage = () => {
                 alert('Error adding schedule');
             });
     };
+
+    const getCurrentDateTimeLocal = () => {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
+  };
+
+    const minDateTime = getCurrentDateTimeLocal();
 
     return (
         <div>
@@ -81,23 +100,25 @@ const AddSchedulePage = () => {
                         />
                     </div>
                     <div className="mb-3">
-                        <label className="form-label">Expected Arrival Date/Time</label>
-                        <input 
-                            type="datetime-local" 
-                            className="form-control"
-                            name="Expected_arrival_date_time"
-                            value={formData.Expected_arrival_date_time}
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
-                    <div className="mb-3">
                         <label className="form-label">Departure Date/Time</label>
                         <input 
                             type="datetime-local" 
                             className="form-control"
                             name="Departure_date_time"
+                            min={ minDateTime }
                             value={formData.Departure_date_time}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+                    <div className="mb-3">
+                        <label className="form-label">Expected Arrival Date/Time</label>
+                        <input 
+                            type="datetime-local" 
+                            className="form-control"
+                            name="Expected_arrival_date_time"
+                            min={formData.Departure_date_time || minDateTime}
+                            value={formData.Expected_arrival_date_time}
                             onChange={handleChange}
                             required
                         />

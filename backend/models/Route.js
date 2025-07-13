@@ -15,7 +15,7 @@ const RouteQuery = () =>{
         // `;
 
         const createRouteTableQuery = `
-             CREATE TABLE IF NOT EXISTS Route (
+             CREATE TABLE IF NOT EXISTS route (
                 Route_ID INT AUTO_INCREMENT PRIMARY KEY,
                 Departure_Airport_ID INT,
                 Arrival_Airport_ID INT,

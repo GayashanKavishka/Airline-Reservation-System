@@ -136,6 +136,7 @@ const SearchFlight = () => {
             </label>
             <input
               value={date}
+              min={new Date().toISOString().split('T')[0]}
               onChange={handleDateChange}
               type="date"
               className="mt-1 block w-full p-3 bg-gray-200 text-gray-700 border border-gray-300 rounded-lg shadow focus:outline-none focus:ring-2 focus:ring-blue-500"

@@ -45,11 +45,12 @@ const Schedule = ({ isAdmin }) => {
                 <div className="row">
                     <div className="col-md-12">
                         <div className='card'>
-                            <div className="card-header">
+                            <h1 style={{textAlign:"center", fontSize:"30px",fontWeight:"900",textShadow:"blue 1px 1px 1px",fontFamily:"Poppins"}}>Available Flight Details</h1>
+                            {/* <div className="card-header">
                                 <h4>Flight Schedule
                                     <Link to="/add-schedule" className="btn btn-primary float-end">Add Schedule</Link>
                                 </h4>
-                            </div>
+                            </div> */}
                             <div className='card-body'>
                                 <table className="table table-striped">
                                     <thead>

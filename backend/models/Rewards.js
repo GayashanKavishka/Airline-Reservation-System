@@ -13,7 +13,7 @@ const rewardsQuery = () => {
 
 
     const createRewardTableQuery = `
-          CREATE TABLE IF NOT EXISTS Reward (
+          CREATE TABLE IF NOT EXISTS reward (
           Reward_ID INT AUTO_INCREMENT PRIMARY KEY ,
           Reward_class VARCHAR(30),
           Discount FLOAT

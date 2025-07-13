@@ -16,7 +16,7 @@ const registeredQuery = () => {
     // `;
 
     const createRegisteredTableQuery = `
-            CREATE TABLE IF NOT EXISTS Registered (
+            CREATE TABLE IF NOT EXISTS registered (
                 Username VARCHAR(30) PRIMARY KEY,
                 Password VARCHAR(255),
                 Passenger_ID INT ,

@@ -4,7 +4,7 @@ const connection = require('../database/connection');
 const planesQuery = () => {
   return new Promise((resolve, reject) => {
     const createPlanesTableQuery = `
-      CREATE TABLE IF NOT EXISTS Planes (
+      CREATE TABLE IF NOT EXISTS planes (
         id INT AUTO_INCREMENT PRIMARY KEY,
         model VARCHAR(255) NOT NULL,
         description TEXT NOT NULL,
