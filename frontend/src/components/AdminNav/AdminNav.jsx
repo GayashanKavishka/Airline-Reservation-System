@@ -1,9 +1,14 @@
 import React, { useState } from 'react';
+import { useAuth } from '../../helpers/AuthContext';
+import LogoutConfirmation from '../LogoutConfirmation/LogoutConfirmation';
 import './AdminNav.css'; // CSS file for styling
 
 const AdminNav = () => {
   const [showReportsMenu, setShowReportsMenu] = useState(false);
   const [showAirplaneMenu, setShowAirplaneMenu] = useState(false);
+  const [showUserMenu, setShowUserMenu] = useState(false);
+  const [showLogoutConfirmation, setShowLogoutConfirmation] = useState(false);
+  const { logout, adminUser } = useAuth();
 
   const handleMouseEnter = () => {
     setShowReportsMenu(true);
@@ -11,6 +16,10 @@ const AdminNav = () => {
 
   const handleMouseEnterAirplane = () => {
     setShowAirplaneMenu(true);
+  };
+
+  const handleMouseEnterUser = () => {
+    setShowUserMenu(true);
   };
 
   const handleMouseLeave = () => {
@@ -21,7 +30,26 @@ const AdminNav = () => {
     setShowAirplaneMenu(false);
   };
 
+  const handleMouseLeaveUser = () => {
+    setShowUserMenu(false);
+  };
+
+  const handleLogoutClick = () => {
+    setShowUserMenu(false);
+    setShowLogoutConfirmation(true);
+  };
+
+  const handleLogoutConfirm = () => {
+    setShowLogoutConfirmation(false);
+    logout();
+  };
+
+  const handleLogoutCancel = () => {
+    setShowLogoutConfirmation(false);
+  };
+
   return (
+    <>
         <div className="horizontal-menu">
         <div>
            <a href ="/" className='logo'>B Airways</a>
@@ -61,8 +89,36 @@ const AdminNav = () => {
         <a href="/admin/add-schedule">Flight Schedule</a>
         <a href="/admin/routes">Routes</a>
         <a href = "/admin/airport">Airports</a>
+        
+        {/* Admin User Menu */}
+        <div 
+            className="submenu admin-user-menu" 
+            onMouseEnter={handleMouseEnterUser} 
+            onMouseLeave={handleMouseLeaveUser}
+        >
+            <a href="#" className="admin-user">
+              <span className="admin-icon">👤</span>
+              {adminUser?.username || 'Admin'}
+            </a>
+            {showUserMenu && (
+            <div className="submenu-items user-submenu">
+                <button onClick={handleLogoutClick} className="logout-btn">
+                  <span className="logout-icon">🚪</span>
+                  Logout
+                </button>
+            </div>
+            )}
         </div>
         </div>
+        </div>
+        
+        {/* Logout Confirmation Modal */}
+        <LogoutConfirmation 
+          isOpen={showLogoutConfirmation}
+          onConfirm={handleLogoutConfirm}
+          onCancel={handleLogoutCancel}
+        />
+    </>
   );
 };
 

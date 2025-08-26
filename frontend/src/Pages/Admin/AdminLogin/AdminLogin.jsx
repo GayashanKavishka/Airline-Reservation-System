@@ -1,17 +1,21 @@
 import React, { useState } from 'react';
 import './AdminLogin.css';
 import AdminNav from '../../../components/AdminNav/AdminNav';
+import { useAuth } from '../../../helpers/AuthContext';
 import axios from 'axios';
-
 
 const AdminLogin = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-
+  const [isLoading, setIsLoading] = useState(false);
+  const { loginAsAdmin } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
+    setError('');
+    
     try {
       // Make a POST request to the backend for login
       const response = await axios.get('http://localhost:5174/admin/login', {
@@ -22,15 +26,30 @@ const AdminLogin = () => {
       });
 
       if (response.data.success) {
-        // Redirect to admin dashboard or some other page
-          window.location.href = '/admin/dashboard';
+        // Store admin token in localStorage
+        if (response.data.token) {
+          localStorage.setItem("adminToken", response.data.token);
+        }
+        
+        // Update auth context with admin login
+        loginAsAdmin({
+          username: username,
+          id: response.data.adminId || null,
+          ...response.data.adminData
+        });
+        
+        // Redirect to admin dashboard
+        window.location.href = '/admin/dashboard';
       } else {
-        setError(response.data.message); // Show the error message returned from the server
+        setError(response.data.message || 'Invalid username or password');
         alert('Invalid username or password');
-
       }
     } catch (err) {
-      setError('Something went wrong. Please try again.'); // Handle any other errors
+      console.error('Login error:', err);
+      setError('Something went wrong. Please try again.');
+      alert('Something went wrong. Please try again.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -77,7 +96,13 @@ const AdminLogin = () => {
                     <label htmlFor = "remember">Remember Me</label>
                 </div>
               </div>
-              <button type="submit" className="login-btn">Login</button>
+              <button 
+                type="submit" 
+                className={`login-btn ${isLoading ? 'loading' : ''}`}
+                disabled={isLoading}
+              >
+                {isLoading ? '' : 'Login'}
+              </button>
             </form>
           </div>
         </div>
