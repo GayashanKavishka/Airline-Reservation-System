@@ -6,7 +6,7 @@ const WelcomeBanner = ({onClickFunction,onClickAbout}) => {
 
 
   return (
-    <div className="relative h-[500px] w-full bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 text-white flex items-center justify-center">
+    <div className="relative h-[500px] w-full bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 text-white flex items-center justify-center pt-20">
       {/* Background Image */}
       <img
         src={Image}
