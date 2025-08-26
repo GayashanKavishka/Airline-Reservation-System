@@ -4,6 +4,7 @@ import Hero from "./Hero/Hero";
 import BootstrapCarousel from "../../components/Carousel/Carousel";
 import WelcomeBanner from "../../components/Welcome/Welcome";
 import Footer from "../../components/Footer/Footer";
+import Navbar from "../../components/Navbar/Navbar";
 
 
 const Home = ({OnClickFunction}) => {
@@ -21,7 +22,9 @@ const Home = ({OnClickFunction}) => {
   
 
   return (
-    <div>
+    <div className="relative">
+      {/* Fixed Navbar at the top */}
+      <Navbar />
       
       <WelcomeBanner onClickFunction={handleClick} onClickAbout={OnClickFunction} />
       <div id = "hero">

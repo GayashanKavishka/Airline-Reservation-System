@@ -75,7 +75,7 @@ const Schedule = ({ isAdmin }) => {
                                                 <td>{item.Aircraft}</td>
                                                 <td>{new Date(item.Departure_date_time).toLocaleString()}</td>
                                                 <td>{new Date(item.Expected_arrival_date_time).toLocaleString()}</td>
-                                                <td>{item.Flight_price}</td>
+                                                <td>{item.Flight_price+'$'}</td>
                                                 <td
                                                     className={`${
                                                         item.Status === 'on-time'
